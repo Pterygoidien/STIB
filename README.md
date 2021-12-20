@@ -8,3 +8,6 @@ Les dossiers annexes sont des applications au sein du projet :
   4. Manager : interface administrateur, comportant les alertes, les stations et les lignes, ainsi que la gestion des profils utilisateurs.
   5. Transports : comporte simplement les modèles liés aux transports (Stations, Lignes, etc.)
   6. Stats : les statistiques en rapport aux différentes alertes
+
+
+Librairies externes : crispy_forms
