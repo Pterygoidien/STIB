@@ -9,7 +9,6 @@
         <li><a href="{% url 'alerts:detail' alert.id %}">{{ alert.id }} - {{ alert.alert_station }} par {{ alert.alert_whistleblower }}, créée le {{ alert.alert_timestamp }}</a></li>
     {% endfor %}
     </ul>
-    <p></p>
-    Créer une alerte <br />
-    <br >
+    <p><a href="{% url 'alerts:add' %}">Créer une alerte</a> </p>
+
 {% endblock %}

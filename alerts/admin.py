@@ -10,7 +10,7 @@ class VoteInline(admin.StackedInline):
 class AlertAdmin(admin.ModelAdmin):
     fieldsets = [
         ('WhistleBlower details',       {'fields':['alert_whistleblower', 'alert_timestamp']}),
-        ('Station Details',             {'fields':['alert_station']}),
+        ('Station Details',             {'fields':['alert_station', 'alert_line']}),
         ('Alert votes',                 {'fields':['alert_votes'], 'classes':['collapse']})
     ]
     inlines = [VoteInline]

@@ -7,6 +7,11 @@
         <li><strong>Date de création du profil : </strong>{{ object.creation_date }} </li>
         <li>
             <strong>Nombre d'alertes : </strong>      {{ object.alert_set.count }}
+            <ul>
+                {% for alert in object.alert_set.all %}
+                    <li><a href="{% url 'alerts:detail' alert.id %}">{{ alert.alert_station}} - {{ alert.alert_timestamp }}</a></li>
+                {% endfor %}
+            </ul>
         </li>
     </ul>
     <a href="{% url 'profiles:index' %}">Revenir en arrière</a>

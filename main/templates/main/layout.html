@@ -20,6 +20,9 @@
     <title>Contrôles STIB{% if title %} | {{ title }}{% endif %}</title>
 </head>
 <body>
+
+
+
 <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
@@ -35,7 +38,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="{% url 'alerts:index' %}">Voir les dernières alertes</a></li>
-                            <li><a class="dropdown-item" href="{% url 'alerts:create' %}">Ajouter une alerte</a></li>
+                            <li><a class="dropdown-item" href="{% url 'alerts:add' %}">Ajouter une alerte</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#">Signaler une erreur</a></li>
                         </ul>

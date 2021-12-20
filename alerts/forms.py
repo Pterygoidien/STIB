@@ -1,21 +1,14 @@
 from django import forms
-from transports.models import Station, Line
-import datetime
+from .models import Alert
+from django.contrib.admin import widgets
+
 
 
 #station_choices = ((pk, station_name))
-class AlertForm(forms.Form):
+class AlertForm(forms.ModelForm):
+    alert_time = forms.TimeInput(attrs={'type':'time'})
+    class Meta:
+        model = Alert
+        fields = ['alert_station', 'alert_line']
 
-    alert_stations = forms.ModelChoiceField(queryset = Station.objects.all())
-    alert_line = forms.ModelChoiceField(queryset=Line.objects.all())
-    '''alert_timestamp = forms.DateTimeField(
-        label='Date et heure',
-        input_formats=["%d/%m/%Y %H:%M:%S"],
-        required=True,
-        widget=forms.DateTimeInput(
-            attrs={'type':'datetime',
-                   'required pattern':'[0-9]{2}/[0-9]{2}/[0-9]{4}',
-                   'placeholder':datetime.datetime.now,
-                   })
-    )'''
-    #En construction
+
