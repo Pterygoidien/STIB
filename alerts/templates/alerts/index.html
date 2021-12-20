@@ -1,0 +1,15 @@
+{% extends "main/layout.html" %}
+{% block content %}
+   Liste des dernières alertes<br />
+    <p>Vous recevrez ici toutes les dernières alertes récentes. Afin d'améliorer la qualité de l'application, il vous est recommandé de participer en confirmant la présence des contrôleurs, ou au contraire en l'infirmant </p>
+    <p>Lorsque les derniers votes infirment l'alerte, elle est en code vert, c'est à dire que le danger est probablement parti. </p>
+    <h2>Liste des 10 dernières alertes</h2>
+    <ul>
+    {% for alert in alerts %}
+        <li><a href="{% url 'alerts:detail' alert.id %}">{{ alert.id }} - {{ alert.alert_station }} par {{ alert.alert_whistleblower }}, créée le {{ alert.alert_timestamp }}</a></li>
+    {% endfor %}
+    </ul>
+    <p></p>
+    Créer une alerte <br />
+    <br >
+{% endblock %}

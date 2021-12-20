@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Rubik:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="{% static 'main/main.css' %}" rel="stylesheet" type="text/css">
+    <style>
+        .logo{
+            font-family: 'Open Sans', sans-serif;
+            font-family: 'Rubik', sans-serif;
+            text-transform: uppercase;
+            font-weight: bold
+        }
+    </style>
+
+    <title>Contrôles STIB : Panneau d'administration</title>
+</head>
+<body>
+<!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/"><span class="logo text-primary">STIB Alerts</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Explorer
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">1</a></li>
+                            <li><a class="dropdown-item" href="#">2</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">3</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/alerts/">Alerts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled">A propos</a>
+                    </li>
+                </ul>
+                <div class="navbar-nav">
+
+                    {% if user.is_authenticated %}
+                        {% if user.is_staff %}
+                            <a class="nav-item nav-link" href="{% url 'manager:index' %}">Gestion</a>
+                        {% endif %}
+                        <a class="nav-item nav-link" href="{% url 'logout' %}">Déconnexion</a>
+                    {% else %}
+                        <a class="nav-item nav-link" href="{% url 'login' %}">Connexion</a>
+                        <a class="nav-item nav-link" href="{% url 'register' %}">Inscription</a>
+                    {% endif %}
+                </div>
+        </div>
+      </div>
+    </nav>
+
+    <!--End navbar-->
+    <!-- Content -->
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-md-8">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+                {% block content %}
+                {% endblock content %}
+            </div>
+        </div>
+    </main>
+
+
+    <!--End content-->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+
+</body>
+</html>

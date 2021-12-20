@@ -1,0 +1,66 @@
+{% extends "main/layout.html" %}
+{% load tz %}
+{% timezone "Europe/Paris" %}
+{% block content %}
+
+    <div class="accordion" id="accordionPanelsStayOpenExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+            Qu'est-ce que STIB Alert ?
+          </button>
+        </h2>
+        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+          <div class="accordion-body">
+            <strong>STIB Alert est une application web pour alerter des contrôles par les agents de la STIB.</strong>
+            <p style="text-align: justify">  Vous n'avez pas assez d'argent pour payer le trajet et vous avez peur de vous faire contrôler en chemin ? STIBAlert est là pour vous !
+              Nous calculons le risque en nous basant sur les alertes des utilisateurs. Vous pouvez créer un compte et à votre tour participer à la vie de cette application, en créant de nouvelles alertes. Vous pouvez également confirmer une alerte, ou l'infirmer, pour nous aider à savoir si les contrôleurs sont toujours présents. Plus l'application est fréquentée, et plus les alertes pourront vous donner un indice fiable du risque si vous fraudez.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+            Les dernières alertes
+          </button>
+        </h2>
+        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+            <div class="accordion-body">
+                <strong>Retrouvez les dernières alertes en ce jour</strong>
+                {% if alerts %}
+                    <ul>
+
+                  {% for alert in alerts %}
+                      <li><a href="{% url 'alerts:detail' alert.id %}">Alerte : <strong>{{ alert.alert_station }}</strong> - {{ alert.alert_timestamp }} par {{ alert.alert_whistleblower }}</a>
+                            <ul>
+                                <li>Nombre de votes : {{ alert.alert_votes }}</li>
+                                <li>Confirmer (Upvote)</li>
+                                <li>Signaler une erreur (Downvote)</li>
+                            </ul>
+                      </li>
+                  {% endfor %}
+
+                    </ul>
+                {% else %}
+                    <p>No alerts !</p>
+                {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+            Statistiques des alertes
+          </button>
+        </h2>
+        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+          <div class="accordion-body">
+            <strong>Statistiques des alertes</strong> Voir les dernières statistiques.
+              Plus de détails par ici : <a href="{% url 'stats:index' %}">statistiques des alertes</a>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+{% endtimezone %}

@@ -1,0 +1,11 @@
+{% extends "main/layout.html" %}
+{% block content %}
+    <h1>Détails de l'alerte</h1>
+    <ul>
+        <li><strong>Numéro d'alerte : </strong>{{ alert.id }} </li>
+        <li><strong>Arrêt signalé : </strong>{{ alert.alert_station.Station_name }} </li>
+        <li><strong>Détails de l'arrêt : </strong>{{ alert.alert_station.Station_adress }} </li>
+        <li><strong>Lanceur d'alerte : </strong><a href="{% url 'profiles:detail-id' alert.alert_whistleblower.id %}">{{ alert.alert_whistleblower }}</a> </li>
+    </ul>
+    <a href="{% url 'alerts:index' %}">Revenir en arrière</a>
+{% endblock %}

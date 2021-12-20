@@ -1,0 +1,13 @@
+{% extends "main/layout.html" %}
+{% block content %}
+    <h1>Détails du profil - {{ object.username }}</h1>
+    <ul>
+        <li><strong>Numéro de profil : </strong>{{ object.id}} </li>
+        <li><strong>Nom du profil : </strong>{{ object.username }} </li>
+        <li><strong>Date de création du profil : </strong>{{ object.creation_date }} </li>
+        <li>
+            <strong>Nombre d'alertes : </strong>      {{ object.alert_set.count }}
+        </li>
+    </ul>
+    <a href="{% url 'profiles:index' %}">Revenir en arrière</a>
+{% endblock %}
