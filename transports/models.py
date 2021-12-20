@@ -52,7 +52,7 @@ class Line(models.Model):
     Line_name = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
-        return f'Ligne de bus : {self.Line_number}'
+        return f'{self.vehicule_type}: {self.Line_number}'
 
 class Route(models.Model):
     line = models.ForeignKey(Line, on_delete=models.CASCADE)

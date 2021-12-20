@@ -34,7 +34,7 @@
                   {% for alert in alerts %}
                       <li><a href="{% url 'alerts:detail' alert.id %}">Alerte : <strong>{{ alert.alert_station }}</strong> - {{ alert.alert_timestamp }} par {{ alert.alert_whistleblower }}</a>
                             <ul>
-                                <li>Nombre de votes : {{ alert.alert_votes }}</li>
+                                <li>Nombre de votes : {{ alert.alertvote_set.count }} </li>
                                 <li>Confirmer (Upvote)</li>
                                 <li>Signaler une erreur (Downvote)</li>
                             </ul>
