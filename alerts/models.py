@@ -8,8 +8,8 @@ from django.urls import reverse
 
 class Alert(models.Model):
     alert_whistleblower = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    alert_timestamp = models.DateTimeField(default=timezone.now)
     alert_time = models.TimeField(default=timezone.now)
+    alert_day = models.DateField(default=timezone.now)
     alert_station = models.ForeignKey(Station, on_delete=models.CASCADE)
     alert_line = models.ForeignKey(Line, on_delete=models.CASCADE)
     alert_votes = models.IntegerField(default=0)

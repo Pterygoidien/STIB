@@ -27,45 +27,40 @@ class Vehicule(models.Model):
         default=Vehicule_Type.BUS
     )
 
+    def __str__(self):
+        return self.vehicule_type
+
 
 class Station(models.Model):
     """La classe Station correspond aux arrêts de bus/tram/n'importe quel moyen de transport public."""
     Station_name = models.CharField(max_length=200)
     Station_adress = models.CharField(max_length=300)
+    Station_number = models.PositiveIntegerField(blank=True, null=True)
+    Station_desc = models.CharField(max_length=150, blank=True, null=True)
+    Station_vehicule = models.ForeignKey(Vehicule, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.Station_name
+        return f'{self.Station_name} {self.Station_desc}'
 
 
 class Line(models.Model):
     Line_number = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)])
-    class Vehicule_Type(models.TextChoices):
-        BUS = 'B', _('Bus')
-        TRAM = 'T', _('Tram')
-        METRO = 'M', _('Metro')
-
-    vehicule_type = models.CharField(
-        max_length=1,
-        choices=Vehicule_Type.choices,
-        default=Vehicule_Type.BUS
-    )
     Line_name = models.CharField(max_length=200, blank=True, null=True)
+    Line_vehicule = models.ForeignKey(Vehicule, on_delete=models.CASCADE)
+    Line_stations = models.ManyToManyField(Station)
+
 
     def __str__(self):
-        return f'{self.vehicule_type}: {self.Line_number}'
+        return f'{self.Line_vehicule}: {self.Line_number}'
+
+class Line_station(models.Model):
+    line = models.ForeignKey(Line, on_delete=models.CASCADE)
+    station = models.ForeignKey(Station, on_delete=models.CASCADE)
+    order = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(60)])
 
 class Route(models.Model):
     line = models.ForeignKey(Line, on_delete=models.CASCADE)
     route_desc = models.TextField()
 
     #route_stations = models.ManyToManyField(Station, through="RoutePath")
-
-
-class RoutePath(models.Model):
-    pass
-
-class Ride(models.Model):
-    """La classe Ride correspond à un trajet pour un véhicule X d'une ligne Y qui emprunte les différents arrêts à des temps déterminés par l'horaire.
-    Elle lie donc 'line' avec une timetable"""
-    pass
 
