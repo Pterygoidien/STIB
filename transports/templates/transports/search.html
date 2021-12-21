@@ -16,68 +16,71 @@
 
         <div class="border-top pt-3">
             <small class="text-muted">
-            {% if message %}
-                <h4>{{ message }}</h4>
-            {% endif %}
-            {% if direct_path %}
-                Meilleur trajet :
-                {% for i in path %}
-                    Ligne {{ i.Line_number }}
-                {% endfor %}
-            {% endif %}
+            <h4>Résultats des recherches pour l'itinérance</h4>
 
-                {% if departure_lines %}
-               <p>Vos résultats :</p>
-
-                <p>Lignes contenant le départ : </p>
-                     {% for e in departure_lines %}
-                     <ul>
+            {% if direct_path or connexion_path %}
+                <!--On fait le choix de permettre la recherche de donner des résultats à la fois de lignes directes et de lignes indirectes, même si les lignes directes sont plus optimales. -->
+                {% if direct_path %}
+                    <!--Résultats des lignes directes-->
+                    <p>Nous avons trouvé <strong>{{ direct_path|length }} ligne{{ direct_path|length|pluralize }} directe{{ direct_path|length|pluralize }}</strong> pour aller de {{ departure_station }} à {{ arrival_station }} </p>
+                    <ul>
+                    {% for item in direct_path %}
                         <li>
-                            Ligne {{e.Line_number }}
-
+                            <span style="font-size: 1.2em; font-weight: 800">{{ item }}</span>
                             <ul>
-                                <li>Nom de la ligne {{ e.Line_name }}</li>
-                                <li>
-                                    Arrêts de cette ligne :
+                                <li><strong>Nom de la ligne :</strong> {{ item.Line_name }}</li>
+                                <li><strong>Arrêts de la ligne : </strong>
                                     <ul>
-                                    {% for i in e.Line_stations.all %}
-                                        <li>{{ i }}</li>
-                                    {% endfor %}
+                                        {% for station_item in item.Line_stations.all %}
+                                            <li
+                                                    {% if station_item.id == departure_station.id or station_item.id == arrival_station.id %}
+                                                        style="color:green; font-weight: 800"
+                                                    {% endif %}
+                                            >
+                                                {{ station_item.Station_name }}
+                                                ({{ station_item.Station_adress }})
+                                                {% if station_item.id == departure_station.id %}
+
+                                                {% endif %}
+                                            </li>
+                                        {% endfor %}
                                     </ul>
                                 </li>
-
                             </ul>
                         </li>
-                     </ul>
-                     {% endfor %}
-                <p>Lignes contenant l'arrivée: </p>
-                     {% for e in arrival_lines %}
-                     <ul>
-                        <li>
-                            Ligne {{e.Line_number }}
-
-                            <ul>
-                                <li>Nom de la ligne {{ e.Line_name }}</li>
-                                <li>
-                                    Arrêts de cette ligne :
-                                    <ul>
-                                    {% for i in e.Line_stations.all %}
-                                        <li>{{ i }}</li>
-                                    {% endfor %}
-                                    </ul>
-                                </li>
-
-                            </ul>
-                        </li>
-                     </ul>
-                     {% endfor %}
-                     <p>Nombre de correspondances trouvées : {{ correspondances }}</p>
-                     {% if same_line %}
-                     <p>Pas besoin de correspondance ! </p>
-                         {% endif %}
-                {% else %}
-                     Aucun résultat ne correspond à votre recherche
+                    {% endfor %}
+                    </ul>
                 {% endif %}
+                {% if connexion_path %}
+                    <!--Lignes indirectes (1 correspondance maximum)-->
+                    <p>Nous avons trouvé <strong>{{ connexion_path|length }} ligne{{ connexion_path|length|pluralize }} indirecte{{ connexion_path|length|pluralize }}</strong> pour aller de {{ departure_station }} à {{ arrival_station }} : </p>
+
+                    {% for item in connexion_path %}
+                        <li>
+                            <span style="font-size: 1.2em; font-weight: 800">{{ item.0 }} - CORRESPONDANCE A {{ item.2.Station_name }} - {{ item.1|length }} choix de correspondance </span>
+                            <ul>
+                                <li><strong>Ligne de départ : </strong> {{ item.0 }}</li>
+                                <li><strong>Arrêt de correspondance : </strong> {{ item.2 }}</li>
+                                <li><strong>Lignes de correspondance : </strong>
+                                    <ul>
+                                        {% for line_item in item.1 %}
+                                            <li>
+                                            Ligne {{ line_item.Line_number }} ({{ line_item.Line_name }})
+                                            </li>
+
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            {% else %}
+                <p>Aucun résultat trouvé ! </p>
+            {% endif %}
+
+
             </small>
         </div>
 
