@@ -7,14 +7,14 @@ from django.urls import reverse
 
 
 class Alert(models.Model):
-    alert_whistleblower = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    alert_timestamp = models.DateTimeField(auto_now_add=True)
-    alert_time = models.TimeField(default=timezone.now)
-    alert_day = models.DateField(default=timezone.now)
-    alert_station = models.ForeignKey(Station, on_delete=models.CASCADE)
-    alert_line = models.ForeignKey(Line, on_delete=models.CASCADE)
+    alert_whistleblower = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Signalisateur')
+    alert_timestamp = models.DateTimeField('Date et heure de création de l\'alerte',auto_now_add=True)
+    alert_time = models.TimeField('Heure de l\'alerte',default=timezone.now)
+    alert_day = models.DateField('Jour de l\'alerte',default=timezone.now)
+    alert_station = models.ForeignKey(Station, on_delete=models.CASCADE, verbose_name='Arrêt concerné par l\'alerte')
+    alert_line = models.ForeignKey(Line, on_delete=models.CASCADE, verbose_name='Ligne concernée')
     alert_votes = models.IntegerField(default=0)
-    alert_remarks = models.TextField(blank=True, null=True)
+    alert_remarks = models.TextField('Remarques éventuelles',blank=True, null=True)
 
     def was_published_recently(self):
         now = date.today()

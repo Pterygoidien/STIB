@@ -1,0 +1,46 @@
+{% extends "main/layout.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+      <div>
+        <form method="get">
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4 mt-2">Rechercher une alerte pour un arrêt</legend>
+            </fieldset>
+            {{ form_station|crispy }}
+            <div class="form-group mt-3">
+                <button class="btn btn-outline-info" type="submit" name="station_search">Rechercher</button>
+            </div>
+        </form>
+          <form method="get">
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Rechercher une alerte pour une ligne</legend>
+            </fieldset>
+            {{ form_line|crispy }}
+            <div class="form-group mt-3">
+                <button class="btn btn-outline-info" type="submit" name="line_search">Rechercher</button>
+            </div>
+        </form>
+    {% if results %}
+        <div class="border-top pt-3">
+            <small class="text-muted">
+            <h4>Résultats</h4>
+            <ul>
+                {% for r in results %}
+
+                    {% for i in r %}
+                        <li>{{ i }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+            </small>
+        </div>
+      {% endif %}
+
+    </div>
+
+
+
+
+{% endblock %}

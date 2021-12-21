@@ -1,6 +1,6 @@
 {% extends "main/layout.html" %}
 {% block content %}
-   Liste des dernières alertes<br />
+    <h1>Voir toutes les alertes</h1>
     <p>Vous recevrez ici toutes les dernières alertes récentes. Afin d'améliorer la qualité de l'application, il vous est recommandé de participer en confirmant la présence des contrôleurs, ou au contraire en l'infirmant </p>
     <p>Lorsque les derniers votes infirment l'alerte, elle est en code vert, c'est à dire que le danger est probablement parti. </p>
     <h2>Liste des 10 dernières alertes</h2>
@@ -9,6 +9,7 @@
         <li><a href="{% url 'alerts:detail' alert.id %}">Ligne {{ alert.alert_line.Line_number }} - Arrêt {{ alert.alert_station.Station_name }} par {{ alert.alert_whistleblower }}, créée à {{ alert.alert_time }}</a></li>
     {% endfor %}
     </ul>
-    <p><a href="{% url 'alerts:add' %}">Créer une alerte</a> </p>
+    <p><a href="{% url 'alerts:add' %}">Créer une alerte</a> <br />
+    <a href="{% url 'alerts:search' %}">Rechercher une alerte</a></p>
 
 {% endblock %}

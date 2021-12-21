@@ -4,7 +4,8 @@ from .views import (
     CreateAlertView,
     UpdateAlertView,
     AlertDetail,
-    AlertDelete
+    AlertDelete,
+    SearchAlerts
 )
 
 app_name='alerts'
@@ -14,4 +15,5 @@ urlpatterns = [
     path('add/', CreateAlertView.as_view(), name='add'),
     path('<int:pk>/update/', UpdateAlertView.as_view(), name='update'),
     path('<int:pk>/delete/', AlertDelete.as_view(), name='delete'),
+    path('search/', SearchAlerts, name='search' )
 ]

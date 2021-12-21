@@ -4,7 +4,9 @@ from .models import Station, Line
 
 
 def SearchItinary(request):
-    context = {}
+    context = {
+        'form':StationForm(),
+    }
     if request.method == 'GET':
         form = StationForm(request.GET)
         if form.is_valid():
@@ -18,7 +20,7 @@ def SearchItinary(request):
                     'departure_station':departure_station,
                     'arrival_station':arrival_station,
                     'direct_path':[],
-                    'connexion_path':[]
+                    'connexion_path':[],
                 }
 
                 for departure_line_instance  in departure_lines:
@@ -42,6 +44,6 @@ def SearchItinary(request):
             else:
                 context['message'] = 'Merci de choisir une arrivée différente du départ'
     else:
-        context['form'] = StationForm()
+        context['message']='faites votre recherche'
     return render(request, 'transports/search.html', context)
 
