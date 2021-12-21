@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import (
     DetailView,
@@ -14,7 +15,6 @@ from .forms import (
     SearchAlert_Line
 )
 from alerts.models import Alert
-from transports.models import Line, Station
 
 
 def SearchAlerts(request):
@@ -37,7 +37,7 @@ def SearchAlerts(request):
                     if alerts:
                         context['results'].append(alerts)
                 except(KeyError, Alert.DoesNotExist):
-                    print('nexistepas')
+                    messages.error('Aucune instance trouvée')
             if 'station' in request.GET:
                 cleaned_form = form_station.cleaned_data
                 station = cleaned_form['station']
@@ -46,9 +46,9 @@ def SearchAlerts(request):
                     if alerts:
                         context['results'].append(alerts)
                 except(KeyError, Alert.DoesNotExist):
-                    print('nexistepas')
-
+                    messages.error('Aucune instance trouvée')
     return render(request, 'alerts/search.html', context)
+
 
 class IndexView(ListView):
     model = Alert
@@ -61,19 +61,6 @@ class IndexView(ListView):
 class AlertDetail(DetailView):
     model = Alert
     template_name = 'alerts/detail.html'
-
-#Alternate form
-def createAlert(request):
-    if request.method == 'POST':
-        form = AlertForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, f'Alerte créée')
-            return redirect('alerts:index')
-    else:
-        form = AlertForm()
-
-    return render(request, 'alerts/create.html', {'form':form})
 
 
 class CreateAlertView(LoginRequiredMixin, CreateView):
@@ -91,6 +78,7 @@ class CreateAlertView(LoginRequiredMixin, CreateView):
         form.instance.alert_whistleblower = self.request.user
         return super().form_valid(form)
 
+
 class UpdateAlertView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'alerts/create.html'
     model = Alert
@@ -105,6 +93,7 @@ class UpdateAlertView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         if self.request.user == alert.alert_whistleblower:
             return True
         return False
+
 
 class AlertDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Alert
