@@ -21,7 +21,7 @@ class Vehicule(models.Model):
         METRO = 'M', _('Metro')
         NOCTIS = 'N', _('Noctis')
 
-    vehicule_type = models.CharField(
+    vehicule_type = models.CharField('type de véhicule',
         max_length=1,
         choices=Vehicule_Type.choices,
         default=Vehicule_Type.BUS
@@ -33,34 +33,39 @@ class Vehicule(models.Model):
 
 class Station(models.Model):
     """La classe Station correspond aux arrêts de bus/tram/n'importe quel moyen de transport public."""
-    Station_name = models.CharField(max_length=200)
-    Station_adress = models.CharField(max_length=300)
-    Station_number = models.PositiveIntegerField(blank=True, null=True)
-    Station_desc = models.CharField(max_length=150, blank=True, null=True)
-    Station_vehicule = models.ForeignKey(Vehicule, on_delete=models.CASCADE)
+    Station_name = models.CharField("Nom de l\'arrêt",max_length=200)
+    Station_adress = models.CharField('Adresse de l\'arret',max_length=300)
+    Station_number = models.PositiveIntegerField('Identification (facultatif)',blank=True, null=True)
+    Station_desc = models.CharField('Description (ou tag Google Map)',max_length=150, blank=True, null=True)
+    Station_vehicule = models.ForeignKey(Vehicule, on_delete=models.CASCADE, verbose_name="Type de transport")
 
     def __str__(self):
-        return f'{self.Station_name} {self.Station_desc}'
+        return f'{self.Station_name} ({self.Station_adress})'
 
 
 class Line(models.Model):
-    Line_number = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)])
-    Line_name = models.CharField(max_length=200, blank=True, null=True)
-    Line_vehicule = models.ForeignKey(Vehicule, on_delete=models.CASCADE)
-    Line_stations = models.ManyToManyField(Station)
+    Line_number = models.PositiveIntegerField('Numéro de la ligne',validators=[MinValueValidator(1), MaxValueValidator(100)])
+    Line_name = models.CharField('Nom de la ligne (départ-arrivée)',max_length=200, blank=True, null=True)
+    Line_vehicule = models.ForeignKey(Vehicule, on_delete=models.CASCADE, verbose_name="Type de transport")
+    Line_stations = models.ManyToManyField(Station, through="Route", verbose_name="Arrêts associés")
+
 
 
     def __str__(self):
-        return f'{self.Line_vehicule}: {self.Line_number}'
+        return f'Ligne {self.Line_number}'
 
 class Line_station(models.Model):
     line = models.ForeignKey(Line, on_delete=models.CASCADE)
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
     order = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(60)])
 
-class Route(models.Model):
-    line = models.ForeignKey(Line, on_delete=models.CASCADE)
-    route_desc = models.TextField()
 
-    #route_stations = models.ManyToManyField(Station, through="RoutePath")
+class Route(models.Model):
+    line = models.ForeignKey(Line, on_delete=models.CASCADE, verbose_name="Ligne associée")
+    station = models.ForeignKey(Station, on_delete=models.CASCADE, verbose_name="Arrêt associé")
+    order = models.IntegerField('Ordre de passage')
+
+    def __str__(self):
+        return f'{self.line} - {self.order} - {self.station}'
+
 

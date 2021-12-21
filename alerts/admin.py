@@ -11,7 +11,8 @@ class AlertAdmin(admin.ModelAdmin):
     fieldsets = [
         ('WhistleBlower details',       {'fields':['alert_whistleblower', 'alert_time', 'alert_day']}),
         ('Station Details',             {'fields':['alert_station', 'alert_line']}),
-        ('Alert votes',                 {'fields':['alert_votes'], 'classes':['collapse']})
+        ('Alert votes',                 {'fields':['alert_votes'], 'classes':['collapse']}),
+        ('Details',                     {'fields':['alert_remarks']})
     ]
     inlines = [VoteInline]
 

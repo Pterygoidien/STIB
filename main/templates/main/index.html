@@ -32,7 +32,7 @@
                     <ul>
 
                   {% for alert in alerts %}
-                      <li><a href="{% url 'alerts:detail' alert.id %}">Alerte : <strong>{{ alert.alert_station }}</strong> - {{ alert.alert_time }} par {{ alert.alert_whistleblower }}</a>
+                      <li><a href="{% url 'alerts:detail' alert.id %}">Alerte : <strong>Arrêt {{ alert.alert_station.Station_name }} (Ligne {{ alert.alert_line.Line_number }})</strong> - {{ alert.alert_time }} par {{ alert.alert_whistleblower }}</a>
                             <ul>
                                 <li>Nombre de votes : {{ alert.alertvote_set.count }} </li>
                                 <li>Confirmer (Upvote)</li>
@@ -43,7 +43,7 @@
 
                     </ul>
                 {% else %}
-                    <p>No alerts !</p>
+                    <p>Aucune alerte n'a été créée à ce jour ! </p>
                 {% endif %}
           </div>
         </div>

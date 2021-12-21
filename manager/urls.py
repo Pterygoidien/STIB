@@ -1,8 +1,22 @@
 from django.urls import path
-from . import views
+from .views import (
+    index,
+    AlertView,
+    UpdateAlertView,
+    AlertDelete
+
+
+)
 
 app_name='manager'
 urlpatterns = [
-    path('', views.IndexView.as_view(), name='index')
+    path('', index, name='index'),
+    path('alerts/', AlertView.as_view(), name="alert-view"),
+    path('alerts/delete/<int:pk>/', AlertDelete.as_view(), name="alert-delete"),
+    path('alerts/update/<int:pk>/', AlertDelete.as_view(), name="alert-update"),
+
+
+
+
 
 ]

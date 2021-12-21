@@ -1,0 +1,13 @@
+{% extends "manager/layout.html" %}
+{% block content %}
+
+
+    <h2>Voir toutes les alertes</h2>
+    <ul>
+    {% for alert in alerts %}
+        <li><a href="{% url 'manager:alert-update' alert.id %}">Ligne {{ alert.alert_line.Line_number }} - Arrêt {{ alert.alert_station.Station_name }} par {{ alert.alert_whistleblower }}, créée à {{ alert.alert_time }}</a></li>
+    {% endfor %}
+    </ul>
+
+
+{% endblock %}

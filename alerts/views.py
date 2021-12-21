@@ -40,7 +40,7 @@ def createAlert(request):
 class CreateAlertView(LoginRequiredMixin, CreateView):
     template_name = 'alerts/create.html'
     model = Alert
-    fields = ['alert_station', 'alert_line']
+    fields = ['alert_station', 'alert_line', 'alert_time', 'alert_day', 'alert_remarks']
 
     def form_valid(self, form):
         form.instance.alert_whistleblower = self.request.user
@@ -49,7 +49,7 @@ class CreateAlertView(LoginRequiredMixin, CreateView):
 class UpdateAlertView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'alerts/create.html'
     model = Alert
-    fields = ['alert_station', 'alert_line']
+    fields = ['alert_station', 'alert_line', 'alert_time', 'alert_day', 'alert_remarks']
 
     def form_valid(self, form):
         form.instance.alert_whistleblower = self.request.user

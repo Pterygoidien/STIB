@@ -1,0 +1,89 @@
+{% extends "main/layout.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+      <div>
+        <form method="get">
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Rechercher un itinéraire</legend>
+            </fieldset>
+            {{ form|crispy }}
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Rechercher un itinéraire</button>
+            </div>
+        </form>
+
+        <div class="border-top pt-3">
+            <small class="text-muted">
+            {% if message %}
+                <h4>{{ message }}</h4>
+            {% endif %}
+            {% if direct_path %}
+                Meilleur trajet :
+                {% for i in path %}
+                    Ligne {{ i.Line_number }}
+                {% endfor %}
+            {% endif %}
+
+                {% if departure_lines %}
+               <p>Vos résultats :</p>
+
+                <p>Lignes contenant le départ : </p>
+                     {% for e in departure_lines %}
+                     <ul>
+                        <li>
+                            Ligne {{e.Line_number }}
+
+                            <ul>
+                                <li>Nom de la ligne {{ e.Line_name }}</li>
+                                <li>
+                                    Arrêts de cette ligne :
+                                    <ul>
+                                    {% for i in e.Line_stations.all %}
+                                        <li>{{ i }}</li>
+                                    {% endfor %}
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </li>
+                     </ul>
+                     {% endfor %}
+                <p>Lignes contenant l'arrivée: </p>
+                     {% for e in arrival_lines %}
+                     <ul>
+                        <li>
+                            Ligne {{e.Line_number }}
+
+                            <ul>
+                                <li>Nom de la ligne {{ e.Line_name }}</li>
+                                <li>
+                                    Arrêts de cette ligne :
+                                    <ul>
+                                    {% for i in e.Line_stations.all %}
+                                        <li>{{ i }}</li>
+                                    {% endfor %}
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </li>
+                     </ul>
+                     {% endfor %}
+                     <p>Nombre de correspondances trouvées : {{ correspondances }}</p>
+                     {% if same_line %}
+                     <p>Pas besoin de correspondance ! </p>
+                         {% endif %}
+                {% else %}
+                     Aucun résultat ne correspond à votre recherche
+                {% endif %}
+            </small>
+        </div>
+
+    </div>
+
+
+
+
+{% endblock %}

@@ -4,8 +4,10 @@
     <ul>
         <li><strong>Numéro d'alerte : </strong>{{ alert.id }} </li>
         <li><strong>Arrêt signalé : </strong>{{ alert.alert_station.Station_name }} </li>
+        <li><strong>Ligne signalée : </strong>{{ alert.alert_line.Line_number }}</li>
         <li><strong>Détails de l'arrêt : </strong>{{ alert.alert_station.Station_adress }} </li>
         <li><strong>Lanceur d'alerte : </strong><a href="{% url 'profiles:detail-id' alert.alert_whistleblower.id %}">{{ alert.alert_whistleblower }}</a> </li>
+        <li><strong>Commentaire : </strong>{{ alert.alert_remarks }}</li>
     </ul>
     <a href="{% url 'alerts:index' %}">Voir toutes les alertes</a>
 {% endblock %}

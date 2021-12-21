@@ -8,14 +8,16 @@ from django.urls import reverse
 
 class Alert(models.Model):
     alert_whistleblower = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    alert_timestamp = models.DateTimeField(auto_now_add=True)
     alert_time = models.TimeField(default=timezone.now)
     alert_day = models.DateField(default=timezone.now)
     alert_station = models.ForeignKey(Station, on_delete=models.CASCADE)
     alert_line = models.ForeignKey(Line, on_delete=models.CASCADE)
     alert_votes = models.IntegerField(default=0)
+    alert_remarks = models.TextField(blank=True, null=True)
 
     def was_published_recently(self):
-        now = timezone.now()
+        now = date.today()
         return now - datetime.timedelta(days=1) <= self.alert_timestamp <= now
 
     def __str__(self):

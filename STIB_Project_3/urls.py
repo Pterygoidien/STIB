@@ -10,6 +10,7 @@ urlpatterns = [
     path('statistiques/', include('stats.urls')),
     path('manager/', include('manager.urls')),
     path('profiles/', include('users.urls')),
+    path('transports/', include('transports.urls')),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html', redirect_authenticated_user=True), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('register/', user_views.register, name='register')
